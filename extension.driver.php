@@ -155,10 +155,17 @@
 		public function getSubscribedDelegates(){
 			return array(
 				array(
+					'page' => '/backend/',
+					'delegate' => 'InitaliseAdminPageHead',
+					'callback' => 'dInitialiseAdminPageHead'
+				),
+
+				array(
 					'page' => '/publish/',
 					'delegate' => 'Delete',
 					'callback' => 'dDelete'
 				),
+
 				array(
 					'page' => '/publish/new/',
 					'delegate' => 'EntryPostCreate',
@@ -170,6 +177,14 @@
 					'callback' => 'dEntryPostEdit'
 				)
 			);
+		}
+
+		public function dInitialiseAdminPageHead(){
+			$page = Administration::instance()->Page;
+
+			// add Symphony.AjaxLoader
+			$page->addStylesheetToHead( URL.'/extensions/selectbox_link_field_plus/assets/symphony.ajaxloader/symphony.ajaxloader.css', "screen" );
+			$page->addScriptToHead( URL.'/extensions/selectbox_link_field_plus/assets/symphony.ajaxloader/symphony.ajaxloader.js', null, false );
 		}
 
 		/**

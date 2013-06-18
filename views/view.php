@@ -31,27 +31,47 @@
 		 *	 The XMLElement wrapper in which the view is placed
 		 * @param fieldSelectBox_Link_plus $field
 		 *	 The field instance
+		 * @param int $entry_id
+		 *   Current entry ID
 		 */
-		public function generateCreate(XMLElement &$wrapper, fieldSelectBox_Link_plus $field){
+		public function generateCreate(XMLElement &$wrapper, fieldSelectBox_Link_plus $field, $entry_id = null){
 			if( $field->get('enable_create') == 1 ){
-				$related_sections = $field->findRelatedSections();
 
-				usort($related_sections, function($a, $b){
-					return strcasecmp($a->get('name'), $b->get('name'));
-				});
+				// new entry
+				if( $entry_id === null ){
+					$buttons = new XMLElement('span', null, array('class' => 'sblp-buttons'));
+					$buttons->appendChild(new XMLElement('p', __('This field will be enabled after you create the entry.'), array('class' => 'help')));
 
-				$create_options = array();
-
-				$buttons = new XMLElement('span', __('Create new entry in'), array('class' => 'sblp-buttons'));
-				foreach( $related_sections as $idx => $section ){
-					/** @var $section Section */
-					$create_options[] = array(URL.'/symphony/publish/'.$section->get('handle').'/new/', $idx == 0, $section->get("name"));
+					$wrapper->appendChild($buttons);
 				}
 
-				$buttons->appendChild(Widget::Select('sblp_section_selector_'.$field->get('id'), $create_options, array('class' => 'sblp-section-selector')));
-				$buttons->appendChild(Widget::Anchor(__("Go"), URL.'/symphony/publish/'.$related_sections[0]->get('handle').'/new/', null, 'create button sblp-add'));
+				else{
+					$related_sections = $field->findRelatedSections();
 
-				$wrapper->appendChild($buttons);
+					usort($related_sections, function($a, $b){
+						return strcasecmp($a->get('name'), $b->get('name'));
+					});
+
+					$create_options = array();
+
+					$buttons = new XMLElement('span', __('New entry in'), array('class' => 'sblp-buttons'));
+					foreach( $related_sections as $idx => $section ){
+						/** @var $section Section */
+						$create_options[] = array(
+							URL.'/symphony/publish/'.$section->get('handle').'/new/',
+							$idx == 0,
+							$section->get("name"),
+							null,
+							null,
+							array('data-id' => $section->get('id'))
+						);
+					}
+
+					$buttons->appendChild(Widget::Select('sblp_section_selector_'.$field->get('id'), $create_options, array('class' => 'sblp-section-selector')));
+					$buttons->appendChild(Widget::Anchor(__("Create"), URL.'/symphony/publish/'.$related_sections[0]->get('handle').'/new/', null, 'create button sblp-add'));
+
+					$wrapper->appendChild($buttons);
+				}
 			}
 		}
 

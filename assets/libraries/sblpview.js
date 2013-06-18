@@ -92,9 +92,9 @@
 			$("a.sblp-add").on('click', function(){
 				sblp.current = $(this).parents('.field-selectbox_link_plus').find('.sblp-view').attr('id');
 				// Open an iframe popup:
-				$("#sblp-white, #sblp-popup").show();
+				sblp.$white.add(sblp.$popup).show();
 				// Use native Symphony functionality to create a new entry:
-				$("#sblp-popup iframe").attr("src", $(this).parents(".field-selectbox_link_plus").find(".sblp-section-selector :selected").val());
+				$("#sblp-popup iframe").attr("src", $(this).parents(".sblp-buttons").find(".sblp-section-selector :selected").val());
 				return false;
 			});
 		},
@@ -130,10 +130,11 @@
 				var section = $parent.data('section');
 
 				sblp.current = view.$view.attr('id');
-				sblp.$white.show();
 
 				var ok = confirm('Are you sure you want to delete this entry? This entry will also be removed from other entries which are related. This action cannot be undone!');
 				if( ok ){
+					var ajaxloader = Symphony.AjaxLoader.show({target: view.$view});
+
 					// Use native Symphony functionality to delete the entry:
 					var data = {};
 					data['action[apply]'] = 'Apply';
@@ -141,6 +142,7 @@
 					data['items['+id+']'] = 'yes';
 
 					$.post(Symphony.Context.get('root')+'/symphony/publish/'+section+'/', data, function(){
+						Symphony.AjaxLoader.hide(ajaxloader);
 						sblp.restoreCurrentView();
 					});
 				}

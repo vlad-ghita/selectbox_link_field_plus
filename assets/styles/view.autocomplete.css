@@ -38,7 +38,8 @@ div.sblp-autocomplete span.text {
 }
 
 div.sblp-autocomplete label .sblp-autocomplete-actions {
-	display: none;
+	/*display: none;*/
+	display: inline;
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -46,8 +47,8 @@ div.sblp-autocomplete label .sblp-autocomplete-actions {
 	padding: 5px;
 }
 
-div.sblp-autocomplete label:hover .sblp-autocomplete-actions {
-	display: inline;
+div.sblp-autocomplete label:hover {
+	background-color: #eee;
 }
 
 

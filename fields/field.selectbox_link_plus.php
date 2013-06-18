@@ -188,15 +188,12 @@
 			));
 
 			// edge case when new entry, required field but can't select entries
-			if( $this->get('show_created') === '1'
-				&& $this->get('required') === 'yes'
-				&& is_null($entry_id)
-			){
+			if( $this->get('show_created') === '1' && is_null($entry_id) ){
 				$view_wrapper->appendChild(new XMLElement('p', __('This field will be enabled after you create the entry.'), array('class' => 'help')));
 			}
 			else{
 				// Create new
-				$view->generateCreate($label, $this);
+				$view->generateCreate($label, $this, $entry_id);
 
 				// Find entries
 				$entry_ids = array();
@@ -255,7 +252,7 @@
 		public function checkPostFieldData($data, &$message, $entry_id = null){
 			$result = parent::checkPostFieldData($data, $message, $entry_id);
 
-			// if new entry, required field && show_created, bypass required option
+			// if new entry && show_created, bypass required option
 			if( $this->get('show_created') === '1'
 				&& $result === self::__MISSING_FIELDS__
 				&& is_null($entry_id)
@@ -264,7 +261,7 @@
 				return self::__OK__;
 			}
 
-			return self::__OK__;
+			return $result;
 		}
 
 
@@ -308,6 +305,8 @@
 			// End of the only adjustment //
 
 			foreach( $related_values as $relation ){
+				if( $relation === null ) continue;
+
 				$item = new XMLElement('item');
 				$item->setAttribute('id', $relation['id']);
 				$item->setAttribute('handle', Lang::createHandle($relation['value']));
@@ -319,6 +318,11 @@
 
 			$wrapper->appendChild($list);
 		}
+
+
+
+
+		public function appendFieldSchema(XMLElement $wrapper){}
 
 
 
@@ -336,6 +340,9 @@
 			$related_sections = array();
 			foreach( $related_fields as $id ){
 				$field = FieldManager::fetch($id);
+				if( is_array($field) ) $field = current($field);
+				if( !$field instanceof Field ) continue;
+
 				$related_sections[] = SectionManager::fetch($field->get('parent_section'));
 			}
 

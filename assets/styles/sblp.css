@@ -2,10 +2,6 @@ div.field-selectbox_link_plus div.selectbox {
 	display: none;
 }
 
-div.field-selectbox_link_plus {
-	position: relative;
-}
-
 #sblp-white {
 	background: #fff;
 	opacity: 0.7;
@@ -22,10 +18,10 @@ div.field-selectbox_link_plus {
 	background: #fff;
 	padding: 10px;
 	position: fixed;
-	left: 7%;
-	top: 5%;
-	width: 85%;
-	height: 85%;
+	left: 1.5%;
+	top: 2.5%;
+	width: 96%;
+	height: 93%;
 	z-index: 9002;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, .5);
 	display: none;
@@ -47,21 +43,23 @@ div.field-selectbox_link_plus {
 	border-radius: 15px;
 }
 
+div.field-selectbox_link_plus label {
+	margin-bottom: 5px;
+}
+
 .label {
 	margin-bottom: 0;
 }
 
 span.sblp-buttons {
-	position: absolute;
-	top: 0;
-	right: 0;
+	float: right;
 }
 
 span.sblp-buttons select.sblp-section-selector {
 	display: inline-block;
 	margin-left: 3px;
 	margin-right: 5px;
-	width: 200px;
+	width: 100px;
 }
 
 span.sblp-buttons a.sblp-add {
@@ -72,4 +70,8 @@ span.sblp-buttons a.sblp-add {
 	position: absolute;
 	top: 7px;
 	right: 10px;
+}
+
+.field-selectbox_link_plus .invalid .hide-others {
+	color: #222222;
 }

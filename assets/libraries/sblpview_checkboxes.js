@@ -49,7 +49,7 @@
 						// Show everything:
 						view.$view.find("label").show();
 					}
-				}).change();
+				});
 		}
 
 	})

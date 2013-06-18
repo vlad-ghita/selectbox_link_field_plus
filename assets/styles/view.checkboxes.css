@@ -38,7 +38,8 @@ div.sblp-checkboxes span.text {
 }
 
 div.sblp-checkboxes label .sblp-checkboxes-actions {
-	display: none;
+	/*display: none;*/
+	display: inline;
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -46,6 +47,6 @@ div.sblp-checkboxes label .sblp-checkboxes-actions {
 	padding: 5px;
 }
 
-div.sblp-checkboxes label:hover .sblp-checkboxes-actions {
-	display: inline;
+div.sblp-checkboxes label:hover {
+	background-color: #eee;
 }

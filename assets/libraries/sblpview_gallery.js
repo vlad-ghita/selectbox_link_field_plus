@@ -70,7 +70,7 @@
 				else{
 					view.$view.find("div.image").show();
 				}
-			}).trigger('change');
+			});
 		}
 
 	})

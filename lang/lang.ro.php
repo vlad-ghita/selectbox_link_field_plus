@@ -25,7 +25,7 @@
 		'View' => 
 		false,
 
-		'<br />%s Enable Create button' => 
+		'<br />%s Enable Create button' =>
 		'<br />%s Activeaza butonul Adaugare',
 
 		'<br />%s Enable Edit button' =>
@@ -67,10 +67,10 @@
 		'Delete this item' => 
 		'Stergere',
 
-		'Create new entry in' => 
-		'Creaza inregistrare noua in',
+		'New entry in' =>
+		'Inregistrare noua in',
 
-		'Go' => 
-		false,
+		'Create' =>
+		'Creaza',
 
 	);
