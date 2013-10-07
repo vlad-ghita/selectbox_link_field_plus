@@ -38,18 +38,19 @@
 				view.$view.disableSelection();
 			}
 
-			// Hide others:
-			view.$view.find("input[name=show_created]").change(
-				function(){
+			// Show all:
+			view.$view.find("input[name=show_created]")
+				.change(function(){
 					if( $(this).attr("checked") ){
+						// Show everything:
+						view.$view.find("label").show();
+					}else{
 						// Only show the selected items:
 						view.$view.find("label").hide();
 						view.$view.find("label:has(input:checked)").show();
-					}else{
-						// Show everything:
-						view.$view.find("label").show();
 					}
-				});
+				})
+				.trigger('change');
 		}
 
 	})

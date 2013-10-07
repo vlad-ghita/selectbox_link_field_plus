@@ -1,6 +1,6 @@
 (function($, undefined){
 
-	sblp.SBLPView_Gallery = sblp.SBLPView.extend({
+	sblp.SBLPView_Icons = sblp.SBLPView.extend({
 
 		init: function($view){
 			this._super($view, {
@@ -11,7 +11,7 @@
 				alert("No links could be found. Are you sure you have selected a field of the type 'upload' for the relation in the Selectbox Link Plus Field?");
 
 			// listen to clicks
-			$view.on('click', "div.sblp-gallery div.image a.thumb", function(e){
+			$view.on('click', "div.sblp-icons div.image a.thumb", function(e){
 				var $parent = $(this).parent();
 				var id = $parent.attr("rel");
 
@@ -25,7 +25,7 @@
 					}
 				}
 				else {
-					$view.find("div.sblp-gallery div.image").removeClass("selected");
+					$view.find("div.sblp-icons div.image").removeClass("selected");
 					$view.find("select.target option").removeAttr("selected");
 					$view.find("select.target option[value=" + id + "]").attr("selected", "selected");
 					$parent.addClass("selected");
@@ -51,7 +51,7 @@
 				// Load the sorting order-state:
 				this.loadSorting();
 
-				view.$view.find("div.sblp-gallery div.container").sortable({items: "div.image", update: function(){
+				view.$view.find("div.sblp-icons div.container").sortable({items: "div.image", update: function(){
 					// Update the option list according to the div items:
 					view.sortItems();
 				}});

@@ -1,0 +1,135 @@
+.field-selectbox_link_plus .sblp-view-widgets select.target {
+	display: none;
+}
+
+div.sblp-widgets {
+	max-height: 332px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	border: 1px solid #ccc;
+	margin-top: 5px;
+	position: relative;
+}
+
+div.sblp-widgets h3 {
+	padding: 5px;
+}
+
+div.sblp-widgets h3 em {
+	font-size: 10px;
+	font-weight: normal;
+	font-style: normal;
+}
+
+div.sblp-widgets label {
+	margin: 0;
+	padding: 5px;
+	border-bottom: 1px solid #ccc;
+	position: relative;
+}
+
+div.sblp-widgets label input {
+	float: left;
+}
+
+div.sblp-widgets span.text {
+	display: block;
+	margin-left: 20px;
+}
+
+div.sblp-widgets label .sblp-widgets-actions {
+	/*display: none;*/
+	display: inline;
+	position: absolute;
+	right: 0;
+	top: 3px;
+	background: transparent;
+	padding: 0 0 0 10px;
+}
+
+div.sblp-widgets label:hover  {
+	background-color: #eee;
+}
+
+div.sblp-widgets span.hide-others {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+
+div.sblp-widgets label .sblp-widgets-actions a {
+	border: none;
+}
+
+div.sblp-widgets label .sblp-widgets-actions a .icon {
+	font-size: 15px;
+	margin-right: 10px;
+}
+
+div.sblp-widgets label .sblp-widgets-actions a:hover .icon {
+	color: #333;
+}
+
+
+.sblp_autocomplete_results {
+	padding: 0;
+	border: 1px solid #999;
+	background-color: white;
+	overflow: hidden;
+	z-index: 99999;
+}
+
+.sblp_autocomplete_results ul {
+	width: 100%;
+	list-style-position: outside;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	font-family: Lucida Grande,Leelawadee,Lucida Sans Unicode,sans-serif;
+	font-size: 1em;
+	color: #343434;
+}
+
+.sblp_autocomplete_results li {
+	margin: 0px;
+	padding: 5px;
+	cursor: default;
+	display: block;
+	line-height: 2.15;
+	overflow: hidden;
+	border-bottom: 1px solid #ddd;
+}
+
+.sblp_autocomplete_loading {
+	/*background: white url('loading.gif') right center no-repeat;*/
+}
+
+.sblp_autocomplete_odd {
+	background-color: #f2f2f2;
+}
+
+.sblp_autocomplete_over {
+	background-color: #5273C0;
+	color: white;
+}
+
+.sblp_autocomplete_over a {
+	color: white;
+}
+
+.sblp_autocomplete_list {
+	width: 100%;
+	padding: 0;
+	margin: .5em 0;
+	list-style: none;
+}
+
+.sblp_autocomplete_list li {
+	margin-top: -1px;
+	padding: .5em;
+	border: 1px solid #ddd;
+}
+
+.sblp_autocomplete_list li a.deselect {
+	margin-right: 2em;
+}

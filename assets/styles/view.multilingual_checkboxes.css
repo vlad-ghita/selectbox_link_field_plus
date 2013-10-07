@@ -1,0 +1,71 @@
+.field-selectbox_link_plus .sblp-view-multilingual_checkboxes select.target {
+	display: none;
+}
+
+div.sblp-multilingual_checkboxes {
+	max-height: 332px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	border: 1px solid #ccc;
+	margin-top: 5px;
+	position: relative;
+}
+
+div.sblp-multilingual_checkboxes h3 {
+	padding: 5px;
+}
+
+div.sblp-multilingual_checkboxes h3 em {
+	font-size: 10px;
+	font-weight: normal;
+	font-style: normal;
+}
+
+div.sblp-multilingual_checkboxes label {
+	margin: 0;
+	padding: 5px;
+	border-bottom: 1px solid #ccc;
+	position: relative;
+}
+
+div.sblp-multilingual_checkboxes label input {
+	float: left;
+}
+
+div.sblp-multilingual_checkboxes span.text {
+	display: block;
+	margin-left: 20px;
+}
+
+div.sblp-multilingual_checkboxes label .sblp-multilingual_checkboxes-actions {
+	/*display: none;*/
+	display: inline;
+	position: absolute;
+	right: 0;
+	top: 3px;
+	background: transparent;
+	padding: 0 0 0 10px;
+}
+
+div.sblp-multilingual_checkboxes label:hover {
+	background-color: #eee;
+}
+
+div.sblp-multilingual_checkboxes span.hide-others {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+
+div.sblp-multilingual_checkboxes label .sblp-multilingual_checkboxes-actions a {
+	border: none;
+}
+
+div.sblp-multilingual_checkboxes label .sblp-multilingual_checkboxes-actions a .icon {
+	font-size: 15px;
+	margin-right: 10px;
+}
+
+div.sblp-multilingual_checkboxes label .sblp-multilingual_checkboxes-actions a:hover .icon {
+	color: #333;
+}

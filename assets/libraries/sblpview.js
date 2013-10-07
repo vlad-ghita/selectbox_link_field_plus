@@ -114,7 +114,7 @@
 				sblp.edit = true; // Set this parameter to prevent the edit-window from closing automaticly:
 				sblp.$white.add(sblp.$popup).show();
 				// Use native Symphony functionality to edit an entry:
-				sblp.$iframe.attr("src", Symphony.Context.get('root')+'/symphony/publish/'+section+'/edit/'+id);
+				sblp.$iframe.attr("src", Symphony.Context.get('root')+'/xandercms/publish/'+section+'/edit/'+id);
 			});
 		},
 
@@ -141,7 +141,7 @@
 					data['with-selected'] = 'delete';
 					data['items['+id+']'] = 'yes';
 
-					$.post(Symphony.Context.get('root')+'/symphony/publish/'+section+'/', data, function(){
+					$.post(Symphony.Context.get('root')+'/xandercms/publish/'+section+'/', data, function(){
 						Symphony.AjaxLoader.hide(ajaxloader);
 						sblp.restoreCurrentView();
 					});

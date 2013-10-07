@@ -9,7 +9,7 @@
 		init: function(){
 			$.ajax({
 				type: "GET",
-				url: Symphony.Context.get('root')+'/symphony/extension/selectbox_link_field_plus/',
+				url: Symphony.Context.get('root')+'/xandercms/extension/selectbox_link_field_plus/',
 				data: { get: this.getEntryIDFromURL() },
 				dataType: "JSON",
 				success: function(data){

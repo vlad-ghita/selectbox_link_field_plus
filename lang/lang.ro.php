@@ -46,6 +46,9 @@
 		'%s hide others' => 
 		'%s ascunde celelalte',
 
+		'%s Show all' =>
+		'%s Afiseaza toate',
+
 		'Select none' => 
 		'Lipsa selectie',
 

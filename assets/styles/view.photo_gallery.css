@@ -1,0 +1,120 @@
+div.sblp-photo_gallery div.image {
+	float: left;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	font-size: 10px;
+	cursor: pointer;
+	position: relative;
+}
+
+div.sblp-photo_gallery {
+	border: 1px solid #eee;
+	padding: 10px;
+	padding-right: 0;
+	margin-top: 5px;
+	background: #fafafa;
+	overflow: auto;
+	max-height: 548px;
+	border: 1px solid #ccc;
+	position: relative;
+	width: 100%;
+}
+
+div.sblp-photo_gallery h3 {
+	font-size: 16px;
+	font-weight: normal;
+	margin-bottom: 10px;
+	color: #333;
+	text-shadow: none;
+}
+
+div.sblp-photo_gallery h3 em {
+	font-size: 10px;
+	font-weight: normal;
+	font-style: normal;
+}
+
+div.sblp-photo_gallery span {
+	float: right;
+}
+
+div.sblp-photo_gallery div.image:hover img {
+	cursor: pointer;
+	opacity: .7;
+}
+
+div.sblp-photo_gallery div.image.selected:hover img {
+	cursor: pointer;
+	opacity: 1;
+}
+
+div.sblp-photo_gallery div.image img {
+	opacity: .4;
+}
+
+div.sblp-photo_gallery div.container {
+	clear: both;
+}
+
+div.sblp-photo_gallery div.selected img {
+	opacity: 1;
+}
+
+div.sblp-photo_gallery a {
+	border: none;
+}
+
+div.sblp-photo_gallery a.edit,
+div.sblp-photo_gallery a.delete {
+	position: absolute;
+	background: #81b934;
+	border: none;
+	left: 0;
+	top: 0;
+	z-index: 2;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	text-decoration: none;
+	font-size: 12px;
+	font-weight: bold;
+	color: #fff;
+	display: none;
+}
+
+div.sblp-photo_gallery a.edit:hover {
+	background: #8fcd3b;
+	text-decoration: none;
+	border: none;
+}
+
+div.sblp-photo_gallery a.delete:hover {
+	background: #f74848;
+	text-decoration: none;
+	border: none;
+}
+
+div.sblp-photo_gallery a.edit [class*="icon-"],
+div.sblp-photo_gallery a.delete [class*="icon-"] {
+	color: #fff;
+}
+
+div.sblp-photo_gallery a.delete {
+	background: #b93434;
+}
+
+div.sblp-photo_gallery div.image:hover a.edit,
+div.sblp-photo_gallery div.image:hover a.delete {
+	display: block;
+}
+
+div.sblp-photo_gallery label {
+	position: absolute;
+	top: 15px;
+	right: 10px;
+	color: #333;
+}
+
+div.sblp-view-photo_gallery select.target {
+	display: none;
+}

@@ -1,6 +1,6 @@
 (function($, undefined){
 
-	sblp.SBLPView_Autocomplete = sblp.SBLPView.extend({
+	sblp.SBLPView_Multilingual_Autocomplete = sblp.SBLPView.extend({
 
 		init: function($view){
 			this._super($view, {
@@ -15,10 +15,10 @@
 			var view = this;
 
 			view.$view.find("select.target option:selected").each(function(){
-				view.$view.find("div.sblp-autocomplete input[value="+$(this).val()+"]").attr("checked", "checked");
+				view.$view.find("div.sblp-multilingual_autocomplete input[value="+$(this).val()+"]").attr("checked", "checked");
 			});
 
-			view.$view.find("div.sblp-autocomplete input").change(function(e){
+			view.$view.find("div.sblp-multilingual_autocomplete input").change(function(e){
 				view.$view.find("select.target option").removeAttr("selected");
 				view.$view.find("input:checked").each(function(){
 					var id = $(this).val();
@@ -31,7 +31,7 @@
 				options[i] = { name: $(this).text(), id: $(this).attr("value") };
 			});
 
-			view.$view.parents('.field-selectbox_link_plus').find("input.sblp-autocomplete").autocomplete(options, {
+			view.$view.parents('.field-selectbox_link_plus').find("input.sblp-multilingual_autocomplete").autocomplete(options, {
 				multiple: true,
 				matchContains: true,
 				formatItem: function(row, i, max) {
@@ -42,7 +42,7 @@
 				}
 			}).result(function(event, data, formatted) {
 
-					var option = view.$view.find("div.sblp-autocomplete input[value=" + data.id + "]");
+					var option = view.$view.find("div.sblp-multilingual_autocomplete input[value=" + data.id + "]");
 
 					option.attr("checked", "checked");
 					option.parent().parent().parent().show();
@@ -56,7 +56,7 @@
 				// Load the sorting order-state:
 				this.loadSorting();
 
-				view.$view.find("div.sblp-autocomplete div.container").sortable({items: "label", update: function(){
+				view.$view.find("div.sblp-multilingual_autocomplete div.container").sortable({items: "label", update: function(){
 					// Update the option list according to the div items:
 					view.sortItems();
 				}});

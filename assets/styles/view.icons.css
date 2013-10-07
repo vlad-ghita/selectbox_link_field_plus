@@ -1,0 +1,128 @@
+div.sblp-icons div.image {
+	float: left;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	font-size: 10px;
+	cursor: pointer;
+	position: relative;
+}
+
+div.sblp-icons {
+	border: 1px solid #ccc;
+	padding: 10px;
+	padding-right: 0;
+	margin-top: 5px;
+	background: #fafafa;
+	overflow: auto;
+	max-height: 548px;
+	position: relative;
+	width: 99%;
+}
+
+div.sblp-icons h3 {
+	font-size: 16px;
+	font-weight: normal;
+	margin-bottom: 10px;
+	color: #333;
+	text-shadow: none;
+}
+
+div.sblp-icons h3 em {
+	font-size: 10px;
+	font-weight: normal;
+	font-style: normal;
+}
+
+div.sblp-icons span {
+	float: right;
+}
+
+div.sblp-icons div.image {
+	border: 1px solid #f0f0f0;
+}
+
+div.sblp-icons div.image:hover img {
+	cursor: pointer;
+	opacity: .7;
+}
+
+div.sblp-icons div.image.selected:hover img {
+	cursor: pointer;
+	opacity: 1;
+}
+
+div.sblp-icons div.image img {
+	opacity: .3;
+}
+
+div.sblp-icons div.container {
+	clear: both;
+}
+
+div.sblp-icons div.selected {
+	background: #f0f0f0;
+	border-color: #e0e0e0;
+}
+
+div.sblp-icons div.selected img {
+	opacity: 1;
+}
+
+div.sblp-icons a {
+	border: none;
+}
+
+div.sblp-icons a.edit,
+div.sblp-icons a.delete {
+	position: absolute;
+	background: #81b934;
+	border: none;
+	left: 0;
+	top: 0;
+	z-index: 2;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	text-decoration: none;
+	font-size: 12px;
+	font-weight: bold;
+	color: #fff;
+	display: none;
+}
+
+div.sblp-icons a.edit:hover {
+	background: #8fcd3b;
+	text-decoration: none;
+	border: none;
+}
+
+div.sblp-icons a.delete:hover {
+	background: #f74848;
+	text-decoration: none;
+	border: none;
+}
+
+div.sblp-icons a.delete {
+	background: #b93434;
+}
+
+div.sblp-icons a.edit [class*="icon-"],
+div.sblp-icons a.delete [class*="icon-"] {
+	color: #fff;
+}
+
+div.sblp-icons div.image:hover a.edit,
+div.sblp-icons div.image:hover a.delete {
+	display: block;
+}
+
+div.sblp-icons label {
+	position: absolute;
+	top: 15px;
+	right: 10px;
+	color: #333;
+}
+
+div.sblp-view-icons select.target {
+	display: none;
+}
