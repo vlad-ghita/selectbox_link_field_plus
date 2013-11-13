@@ -70,7 +70,6 @@ div.sblp-multilingual_autocomplete label .sblp-multilingual_autocomplete-actions
 	color: #333;
 }
 
-
 .sblp_autocomplete_results {
 	padding: 0px;
 	border: 1px solid #999;
@@ -85,7 +84,7 @@ div.sblp-multilingual_autocomplete label .sblp-multilingual_autocomplete-actions
 	list-style: none;
 	padding: 0;
 	margin: 0;
-	font-family: Lucida Grande,Leelawadee,Lucida Sans Unicode,sans-serif;
+	font-family: Lucida Grande, Leelawadee, Lucida Sans Unicode, sans-serif;
 	font-size: 1em;
 	color: #343434;
 }

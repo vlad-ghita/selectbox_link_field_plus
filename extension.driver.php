@@ -6,14 +6,9 @@
 	 * Time: 10:45
 	 */
 
+	require_once(EXTENSIONS . '/selectbox_link_field/extension.driver.php');
 
-
-	require_once(EXTENSIONS.'/selectbox_link_field/extension.driver.php');
-
-
-
-	Class Extension_Selectbox_Link_Field_Plus extends extension_selectbox_link_field
-	{
+	Class Extension_Selectbox_Link_Field_Plus extends extension_selectbox_link_field {
 
 		private static $assets_loaded = false;
 
@@ -28,8 +23,8 @@
 		 *
 		 * @return bool
 		 */
-		public function install(){
-			try{
+		public function install() {
+			try {
 				Symphony::Database()->query("CREATE TABLE IF NOT EXISTS `tbl_fields_selectbox_link_plus` (
                   `id` int(11) unsigned NOT NULL auto_increment,
                   `field_id` int(11) unsigned NOT NULL,
@@ -62,8 +57,7 @@
               KEY `entry_id` (`entry_id`),
               KEY `created_id` (`created_id`)
 			) ENGINE = MYISAM;");
-			}
-			catch( Exception $e ){
+			} catch (Exception $e) {
 				return false;
 			}
 
@@ -75,7 +69,7 @@
 		 *
 		 * @return void
 		 */
-		public function uninstall(){
+		public function uninstall() {
 			Symphony::Database()->query("DROP TABLE `tbl_fields_selectbox_link_plus`");
 			Symphony::Database()->query("DROP TABLE `tbl_sblp_sortorder`");
 			Symphony::Database()->query("DROP TABLE `tbl_sblp_created`");
@@ -88,8 +82,8 @@
 		 *
 		 * @return void
 		 */
-		public function update($previousVersion){
-			if( version_compare($previousVersion, '1.3', '<') ){
+		public function update($previousVersion) {
+			if (version_compare($previousVersion, '1.3', '<')) {
 
 				// Create the tables:
 				Symphony::Database()->query("
@@ -117,13 +111,12 @@
 
 				// By default, save all the current relations as being created by their parent entry (which is often the case):
 				$field_ids = Symphony::Database()->fetchCol('field_id', 'SELECT `field_id` FROM `tbl_fields_selectbox_link_plus`;');
-				foreach( $field_ids as $field_id )
-				{
+				foreach ($field_ids as $field_id) {
 					$results = Symphony::Database()->fetch(sprintf('SELECT * FROM `tbl_entries_data_%d`;', $field_id));
-					foreach( $results as $result ){
-						if( !is_null($result['relation_id']) ){
+					foreach ($results as $result) {
+						if (!is_null($result['relation_id'])) {
 							Symphony::Database()->insert(array(
-								'entry_id' => $result['entry_id'],
+								'entry_id'   => $result['entry_id'],
 								'created_id' => $result['relation_id']
 							), 'tbl_sblp_created');
 						}
@@ -131,12 +124,19 @@
 				}
 			}
 
-			if( version_compare($previousVersion, '1.5', '<') ){
+			if (version_compare($previousVersion, '1.5', '<')) {
 				Symphony::Database()->query("
 				ALTER TABLE  `tbl_fields_selectbox_link_plus`
 			        ADD `enable_create` INT(1) NOT NULL DEFAULT 1,
 					ADD `enable_edit` INT(1) NOT NULL DEFAULT 1,
 					ADD `enable_delete` INT(1) NOT NULL DEFAULT 1
+				");
+			}
+
+			if (version_compare($previousVersion, '1.6', '<')) {
+				Symphony::Database()->query("
+				ALTER TABLE  `tbl_fields_selectbox_link_plus`
+					ADD `hide_when_prepopulated` ENUM('yes','no') NOT NULL DEFAULT 'no' AFTER  `show_association`;
 				");
 			}
 		}
@@ -152,39 +152,37 @@
 		 *
 		 * @return array
 		 */
-		public function getSubscribedDelegates(){
+		public function getSubscribedDelegates() {
 			return array(
 				array(
-					'page' => '/backend/',
+					'page'     => '/backend/',
 					'delegate' => 'InitaliseAdminPageHead',
 					'callback' => 'dInitialiseAdminPageHead'
 				),
-
 				array(
-					'page' => '/publish/',
+					'page'     => '/publish/',
 					'delegate' => 'Delete',
 					'callback' => 'dDelete'
 				),
-
 				array(
-					'page' => '/publish/new/',
+					'page'     => '/publish/new/',
 					'delegate' => 'EntryPostCreate',
 					'callback' => 'dEntryPostCreate'
 				),
 				array(
-					'page' => '/publish/edit/',
+					'page'     => '/publish/edit/',
 					'delegate' => 'EntryPostEdit',
 					'callback' => 'dEntryPostEdit'
 				)
 			);
 		}
 
-		public function dInitialiseAdminPageHead(){
+		public function dInitialiseAdminPageHead() {
 			$page = Administration::instance()->Page;
 
 			// add Symphony.AjaxLoader
-			$page->addStylesheetToHead( URL.'/extensions/selectbox_link_field_plus/assets/symphony.ajaxloader/symphony.ajaxloader.css', "screen" );
-			$page->addScriptToHead( URL.'/extensions/selectbox_link_field_plus/assets/symphony.ajaxloader/symphony.ajaxloader.js', null, false );
+			$page->addStylesheetToHead(URL . '/extensions/selectbox_link_field_plus/assets/symphony.ajaxloader/symphony.ajaxloader.css', "screen");
+			$page->addScriptToHead(URL . '/extensions/selectbox_link_field_plus/assets/symphony.ajaxloader/symphony.ajaxloader.js', null, false);
 		}
 
 		/**
@@ -194,21 +192,22 @@
 		 *
 		 * @return void
 		 */
-		public function dDelete($context){
-			foreach( $context['entry_id'] as $id ){
+		public function dDelete($context) {
+			foreach ($context['entry_id'] as $id) {
 				// Delete sorting order information:
-				Symphony::Database()->delete('tbl_sblp_sortorder', '`entry_id` = '.$id);
+				Symphony::Database()->delete('tbl_sblp_sortorder', '`entry_id` = ' . $id);
 				// Delete references to created entries:
-				Symphony::Database()->delete('tbl_sblp_created', '`created_id` = '.$id);
-				Symphony::Database()->delete('tbl_sblp_created', '`entry_id` = '.$id);
+				Symphony::Database()->delete('tbl_sblp_created', '`created_id` = ' . $id);
+				Symphony::Database()->delete('tbl_sblp_created', '`entry_id` = ' . $id);
 			}
 		}
 
-		public function dEntryPostCreate($context){
+		public function dEntryPostCreate($context) {
 			$this->linkCreatedEntry($context['entry']->get('id'));
 			$this->storeSortOrder($context['entry']->get('id'));
 		}
-		public function dEntryPostEdit($context){
+
+		public function dEntryPostEdit($context) {
 			$this->storeSortOrder($context['entry']->get('id'));
 		}
 
@@ -218,28 +217,32 @@
 		 *
 		 * @param $id
 		 */
-		private function linkCreatedEntry($id){
-			if( isset($_POST['sblp_parent']) ){
+		private function linkCreatedEntry($id) {
+			if (isset($_POST['sblp_parent'])) {
 				Symphony::Database()->insert(
 					array('entry_id' => intval($_POST['sblp_parent']), 'created_id' => $id), 'tbl_sblp_created'
 				);
 			}
 		}
 
-		private function storeSortOrder($id = null){
-			if( isset($_POST['sblp_sortorder']) ){
-				if( $id === null ) $id = intval($_POST['id']);
+		private function storeSortOrder($id = null) {
+			if (isset($_POST['sblp_sortorder'])) {
+				if ($id === null) {
+					$id = intval($_POST['id']);
+				}
 
 				$order = $_POST['sblp_sortorder'];
 				$order = json_decode($order, true);
 
-				if($id == '') { $id = 0; }
-				Symphony::Database()->query('DELETE FROM `tbl_sblp_sortorder` WHERE `entry_id` = '.$id.';');
-				if($id != 0) {
+				if ($id == '') {
+					$id = 0;
+				}
+				Symphony::Database()->query('DELETE FROM `tbl_sblp_sortorder` WHERE `entry_id` = ' . $id . ';');
+				if ($id != 0) {
 					Symphony::Database()->query('DELETE FROM `tbl_sblp_sortorder` WHERE `entry_id` = 0;');
 				}
 				Symphony::Database()->query('INSERT INTO `tbl_sblp_sortorder` (`entry_id`, `related_field_id`)
-                VALUES ('.$id.', \''.serialize($order).'\');');
+                VALUES (' . $id . ', \'' . serialize($order) . '\');');
 			}
 		}
 
@@ -254,24 +257,23 @@
 		 *
 		 * @return void
 		 */
-		public static function appendAssets(){
-			if( self::$assets_loaded === false
+		public static function appendAssets() {
+			if (self::$assets_loaded === false
 				&& class_exists('Administration')
 				&& Administration::instance() instanceof Administration
 				&& Administration::instance()->Page instanceof HTMLPage
-			){
+			) {
 
 				self::$assets_loaded = true;
 
 				$page = Administration::instance()->Page;
 
-				$page->addScriptToHead(URL.'/extensions/selectbox_link_field_plus/assets/libraries/jquery-ui-1.8.16.custom.min.js');
-				$page->addScriptToHead(URL.'/extensions/selectbox_link_field_plus/assets/libraries/inheritance.js');
-				$page->addScriptToHead(URL.'/extensions/selectbox_link_field_plus/assets/libraries/sblp.js');
-				$page->addScriptToHead(URL.'/extensions/selectbox_link_field_plus/assets/libraries/sblpview.js');
-				$page->addStylesheetToHead(URL.'/extensions/selectbox_link_field_plus/assets/styles/sblp.css');
+				$page->addScriptToHead(URL . '/extensions/selectbox_link_field_plus/assets/libraries/jquery-ui-1.8.16.custom.min.js');
+				$page->addScriptToHead(URL . '/extensions/selectbox_link_field_plus/assets/libraries/inheritance.js');
+				$page->addScriptToHead(URL . '/extensions/selectbox_link_field_plus/assets/libraries/sblp.js');
+				$page->addScriptToHead(URL . '/extensions/selectbox_link_field_plus/assets/libraries/sblpview.js');
+				$page->addStylesheetToHead(URL . '/extensions/selectbox_link_field_plus/assets/styles/sblp.css');
 			}
 		}
-
 	}
  

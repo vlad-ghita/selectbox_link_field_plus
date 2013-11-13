@@ -1,9 +1,9 @@
-(function($, undefined){
+(function ($, undefined) {
 
-	$(sblp).on('sblp.initialization', function(){
+	$(sblp).on('sblp.initialization', function () {
 
 		// register views
-		$('div.sblp-view-photo_gallery').each(function(){
+		$('div.sblp-view-photo_gallery').each(function () {
 			var $view = $(this);
 
 			$view.parents(".field-selectbox_link_plus").css('width', '152%');

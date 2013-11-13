@@ -1,9 +1,9 @@
-(function($, undefined){
+(function ($, undefined) {
 
-	$(sblp).on('sblp.initialization', function(){
+	$(sblp).on('sblp.initialization', function () {
 
 		// register views
-		$('div.sblp-view-multilingual_checkboxes').each(function(){
+		$('div.sblp-view-multilingual_checkboxes').each(function () {
 			var $view = $(this);
 			sblp.views[$view.attr('id')] = new sblp.SBLPView_Multilingual_Checkboxes($view);
 		});

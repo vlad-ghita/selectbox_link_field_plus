@@ -47,7 +47,7 @@ div.sblp-widgets label .sblp-widgets-actions {
 	padding: 0 0 0 10px;
 }
 
-div.sblp-widgets label:hover  {
+div.sblp-widgets label:hover {
 	background-color: #eee;
 }
 
@@ -70,7 +70,6 @@ div.sblp-widgets label .sblp-widgets-actions a:hover .icon {
 	color: #333;
 }
 
-
 .sblp_autocomplete_results {
 	padding: 0;
 	border: 1px solid #999;
@@ -85,7 +84,7 @@ div.sblp-widgets label .sblp-widgets-actions a:hover .icon {
 	list-style: none;
 	padding: 0;
 	margin: 0;
-	font-family: Lucida Grande,Leelawadee,Lucida Sans Unicode,sans-serif;
+	font-family: Lucida Grande, Leelawadee, Lucida Sans Unicode, sans-serif;
 	font-size: 1em;
 	color: #343434;
 }

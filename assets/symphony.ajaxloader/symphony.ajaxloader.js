@@ -1,9 +1,10 @@
-;(function($, undefined){
+;
+(function ($, undefined) {
 
-	if( Symphony.AjaxLoader === undefined ){
+	if (Symphony.AjaxLoader === undefined) {
 
 		var defaults = {
-			target: 'body',    // jQuery selector / object which will contain the loader
+			target:   'body', // jQuery selector / object which will contain the loader
 			position: 'center' // the CSS background-position property value
 		};
 
@@ -14,12 +15,12 @@
 			 *
 			 * @return the target jQuery object
 			 */
-			show: function(options){
+			show: function (options) {
 				var o = $.extend(defaults, options);
 				var $target = $(o.target);
 
 				var $loader = $('<div></div>').attr({
-					'id': 'ajaxloader',
+					'id':    'ajaxloader',
 					'class': 'ajaxloader'
 				}).css('background-position', o.position);
 
@@ -36,8 +37,8 @@
 			 *
 			 * @param $target - the object returned by Symphony.Ajaxloader.show()
 			 */
-			hide: function($target){
-				$('#ajaxloader').fadeOut(function(){
+			hide: function ($target) {
+				$('#ajaxloader').fadeOut(function () {
 					$(this).remove();
 				});
 

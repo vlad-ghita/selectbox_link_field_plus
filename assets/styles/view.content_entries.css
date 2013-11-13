@@ -1,8 +1,8 @@
-.field-selectbox_link_plus .sblp-view-autocomplete select.target {
+.field-selectbox_link_plus .sblp-view-content_entries select.target {
 	display: none;
 }
 
-div.sblp-autocomplete {
+div.sblp-content_entries {
 	max-height: 332px;
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -11,44 +11,64 @@ div.sblp-autocomplete {
 	position: relative;
 }
 
-div.sblp-autocomplete h3 {
+div.sblp-content_entries h3 {
 	padding: 5px;
 }
 
-div.sblp-autocomplete h3 em {
+div.sblp-content_entries h3 em {
 	font-size: 10px;
 	font-weight: normal;
 	font-style: normal;
 }
 
-div.sblp-autocomplete label {
+div.sblp-content_entries label {
 	margin: 0;
 	padding: 5px;
 	border-bottom: 1px solid #ccc;
 	position: relative;
 }
 
-div.sblp-autocomplete label input {
+div.sblp-content_entries label input {
 	float: left;
 }
 
-div.sblp-autocomplete span.text {
+div.sblp-content_entries span.text {
 	display: block;
 	margin-left: 20px;
+	margin-right: 40px;
 }
 
-div.sblp-autocomplete label .sblp-autocomplete-actions {
+div.sblp-content_entries label .sblp-content_entries-actions {
 	/*display: none;*/
 	display: inline;
 	position: absolute;
 	right: 0;
-	top: 0;
-	background: #fff;
-	padding: 5px;
+	top: 3px;
+	background: transparent;
+	padding: 0 0 0 10px;
 }
 
-div.sblp-autocomplete label:hover {
+div.sblp-content_entries label:hover {
 	background-color: #eee;
+}
+
+div.sblp-content_entries span.hide-others {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+
+div.sblp-content_entries label .sblp-content_entries-actions a {
+	border: none;
+}
+
+div.sblp-content_entries label .sblp-content_entries-actions a .icon {
+	font-size: 15px;
+	margin-right: 10px;
+}
+
+div.sblp-content_entries label .sblp-content_entries-actions a:hover .icon {
+	color: #333;
 }
 
 .sblp_autocomplete_results {

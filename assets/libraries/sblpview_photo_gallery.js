@@ -1,23 +1,24 @@
-;(function($, undefined){
+;
+(function ($, undefined) {
 
 	sblp.SBLPView_Photo_Gallery = sblp.SBLPView.extend({
 
-		init: function($view){
+		init: function ($view) {
 			this._super($view, {
 				source_list: 'div.image'
 			});
 
-			if( $view.data('alert') )
+			if ($view.data('alert'))
 				alert("No links could be found. Are you sure you have selected a field of the type 'upload' for the relation in the Selectbox Link Plus Field?");
 
 			// listen to clicks
-			$view.on('click', "div.sblp-photo_gallery div.image a.thumb", function(e){
+			$view.on('click', "div.sblp-photo_gallery div.image a.thumb", function (e) {
 				var $parent = $(this).parent();
 				var id = $parent.attr("rel");
 
-				if( $view.data('multiple') ){
+				if ($view.data('multiple')) {
 					$parent.toggleClass("selected");
-					if( $parent.hasClass("selected") ){
+					if ($parent.hasClass("selected")) {
 						$view.find("select.target option[value=" + id + "]").attr("selected", "selected");
 					}
 					else {
@@ -38,20 +39,20 @@
 			this.update();
 		},
 
-		update: function(){
+		update: function () {
 			var view = this;
 
 			// add visual effects
-			view.$view.find("select.target option:selected").each(function(){
+			view.$view.find("select.target option:selected").each(function () {
 				view.$view.find("div.image[rel=" + $(this).val() + "]").addClass("selected");
 			});
 
 			// initialize
-			if( view.$view.data('multiple') ){
+			if (view.$view.data('multiple')) {
 				// Load the sorting order-state:
 				this.loadSorting();
 
-				view.$view.find("div.sblp-photo_gallery div.container").sortable({items: "div.image", update: function(){
+				view.$view.find("div.sblp-photo_gallery div.container").sortable({items: "div.image", update: function () {
 					// Update the option list according to the div items:
 					view.sortItems();
 				}});
@@ -60,15 +61,15 @@
 			}
 
 			// Show all:
-			view.$view.find("input[name=show_created]").on('change', function(){
+			view.$view.find("input[name=show_created]").on('change',function () {
 
 				// Show everything:
-				if( $(this).attr("checked") ){
+				if ($(this).attr("checked")) {
 					view.$view.find("div.image").show();
 				}
 
 				// Only show the selected items:
-				else{
+				else {
 					view.$view.find("div.image").not(".selected").hide();
 				}
 			}).trigger('change');

@@ -1,6 +1,6 @@
 (function ($, undefined) {
 
-	sblp.SBLPView_Widgets = sblp.SBLPView.extend({
+	sblp.SBLPView_DEV_Content_Entries = sblp.SBLPView.extend({
 
 		init: function ($view) {
 			this._super($view, {
@@ -16,11 +16,11 @@
 			var is_dev = view.$view.data('dev');
 
 			view.$view.find("select.target option:selected").each(function () {
-				view.$view.find("div.sblp-widgets input[value=" + $(this).val() + "]").attr("checked", "checked");
+				view.$view.find("div.sblp-content_entries input[value=" + $(this).val() + "]").attr("checked", "checked");
 			});
 
 			if (is_dev) {
-				view.$view.find("div.sblp-widgets input").change(function (e) {
+				view.$view.find("div.sblp-content_entries input").change(function (e) {
 					view.$view.find("select.target option").removeAttr("selected");
 					view.$view.find("input:checked").each(function () {
 						var id = $(this).val();
@@ -33,20 +33,18 @@
 					options[i] = { name: $(this).text(), id: $(this).attr("value") };
 				});
 
-				view.$view.parents('.field-selectbox_link_plus').find("input.sblp-widgets")
-					.autocomplete(options, {
-						multiple:      true,
-						matchContains: true,
-						formatItem:    function (row, i, max) {
-							return row.name;
-						},
-						formatMatch:   function (row, i, max) {
-							return row.name;
-						}
-					})
-					.result(function (event, data, formatted) {
+				view.$view.parents('.field-selectbox_link_plus').find("input.sblp-content_entries").autocomplete(options, {
+					multiple:      true,
+					matchContains: true,
+					formatItem:    function (row, i, max) {
+						return row.name;
+					},
+					formatMatch:   function (row, i, max) {
+						return row.name;
+					}
+				}).result(function (event, data, formatted) {
 
-						var option = view.$view.find("div.sblp-widgets input[value=" + data.id + "]");
+						var option = view.$view.find("div.sblp-content_entries input[value=" + data.id + "]");
 
 						option.attr("checked", "checked");
 						option.parent().parent().parent().show();
@@ -55,13 +53,14 @@
 
 						$(this).val("");
 					});
+
 			}
 
 			if (view.$view.data('multiple')) {
 				// Load the sorting order-state:
 				this.loadSorting();
 
-				view.$view.find("div.sblp-widgets div.container").sortable({items: "label", update: function () {
+				view.$view.find("div.sblp-content_entries div.container").sortable({items: "label", update: function () {
 					// Update the option list according to the div items:
 					view.sortItems();
 				}});
@@ -85,15 +84,8 @@
 				})
 				.trigger('change');
 
-			if (!is_dev) {
+			if (!is_dev)
 				$hide_others.hide();
-
-				if (view.$view.find("label:has(input:checked)").length == 0)
-					view.$view.parents('.field-selectbox_link_plus').hide();
-
-				// fix label margin-bottom
-				view.$view.siblings('label').css('margin-bottom', '0');
-			}
 		}
 
 	})

@@ -9,17 +9,17 @@
 	require_once(EXTENSIONS . '/selectbox_link_field_plus/views/view.php');
 
 	// The class name must be 'SBLPView_[filename - view. and .php (ucfirst)]':
-	Class SBLPView_Widgets extends SBLPView {
+	Class SBLPView_Content_Entries extends SBLPView {
 		private static $assets_loaded = false;
 
 
 
 		public function getName() {
-			return __("Widgets");
+			return "Content : Entries";
 		}
 
 		public function getHandle() {
-			return 'widgets';
+			return 'content_entries';
 		}
 
 		public function generateCreate(XMLElement &$wrapper, fieldSelectBox_Link_plus $field) {
@@ -86,62 +86,91 @@
 			parent::generateView($wrapper, $fieldname, $options, $field);
 
 			if (Administration::instance()->Author->isDeveloper()) {
-				$wrapper->appendChild(new XMLElement('input', null, array('type'  => 'text',
-				                                                          'class' => 'sblp-widgets'
+				$wrapper->appendChild(new XMLElement('input', null, array(
+					'type'  => 'text',
+					'class' => 'sblp-multilingual_dev'
 				)));
 			}
+
+			// Show checkboxes:
+			$checkboxes = new XMLElement('div', null, array('class' => 'sblp-content_entries'));
+			$container  = new XMLElement('div', null, array('class' => 'container'));
+
+			if (Administration::instance()->Author->isDeveloper()) {
+				$suffix = $field->get('allow_multiple_selection') ? ' <em>' . __('(drag to reorder)') . '</em>' : '';
+				$container->appendChild(new XMLElement('h3', __('Content') . $suffix));
+			}
+
+			// In case of no multiple and not required:
+			if ($field->get('allow_multiple_selection') == 'no' && $field->get('required') == 'no') {
+				$label = Widget::Label('<em>' . __('Select none') . '</em>', Widget::Input('sblp-checked-' . $field->get('id'), '0', 'radio'));
+				$container->appendChild($label);
+			}
+
+			$this->generateShowCreated($container);
 
 			$lc = Lang::get();
 			if (!FLang::validateLangCode($lc)) {
 				$lc = FLang::getMainLang();
 			}
 
-			// Show checkboxes:
-			$checkboxes = new XMLElement('div', null, array('class' => 'sblp-widgets'));
 			foreach ($options as $optGroup) {
-				$container = new XMLElement('div', null, array('class' => 'container'));
 
 				if (isset($optGroup['label'])) {
-
-					if (Administration::instance()->Author->isDeveloper()) {
-						$suffix = $field->get('allow_multiple_selection') ? ' <em>' . __('(drag to reorder)') . '</em>' : '';
-						$container->appendChild(new XMLElement('h3', __('Content') . $suffix));
-					}
-
-					$this->generateShowCreated($container);
-
-					// In case of no multiple and not required:
-					if ($field->get('allow_multiple_selection') == 'no' && $field->get('required') == 'no') {
-						$label = Widget::Label('<em>' . __('Select none') . '</em>', Widget::Input('sblp-checked-' . $field->get('id'), '0', 'radio'));
-						$container->appendChild($label);
-					}
-
 					foreach ($optGroup['options'] as $option) {
 						$section = SectionManager::fetch($optGroup['id']);
 
 						$entry_id = $option[0];
 
-						/** @var $entry Entry */
-						$entry = EntryManager::fetch($entry_id);
-						if (is_array($entry)) {
-							$entry = current($entry);
+						// if content-entry entry, hijack value
+						if ($optGroup['id'] == 56) {
+							/** @var $entry Entry */
+							$entry = EntryManager::fetch($entry_id);
+							if (is_array($entry)) {
+								$entry = current($entry);
+							}
+
+							$value = '';
+
+							// value for Developer
+							if (Administration::instance()->Author->isDeveloper()) {
+								$fid_title_dev = FieldManager::fetchFieldIDFromElementName('title-developer', $optGroup['id']);
+								$value_dev     = $entry->getData($fid_title_dev);
+								$value_dev     = strip_tags(html_entity_decode($value_dev['value_formatted']));
+								$value .= "[$entry_id] $value_dev || ";
+							}
+
+							// value for Author
+							$fid_title    = FieldManager::fetchFieldIDFromElementName('title', $optGroup['id']);
+							$value_author = $entry->getData($fid_title);
+							$value_author = strip_tags(html_entity_decode($value_author["value_formatted-$lc"]));
+							$value .= "$value_author";
 						}
 
-						$value = '';
+						// else keep default
+						else {
+							/** @var $entry Entry */
+							$entry = EntryManager::fetch($entry_id);
+							if (is_array($entry)) {
+								$entry = current($entry);
+							}
 
-						// value for Developer
-						if (Administration::instance()->Author->isDeveloper()) {
-							$fid_title_dev = FieldManager::fetchFieldIDFromElementName('title-developer', $optGroup['id']);
-							$value_dev     = $entry->getData($fid_title_dev);
-							$value_dev     = strip_tags(html_entity_decode($value_dev['value_formatted']));
-							$value .= "[$entry_id] $value_dev || ";
+							$value = '';
+
+							// value for Developer
+							if (Administration::instance()->Author->isDeveloper()) {
+								$fid_title_dev = FieldManager::fetchFieldIDFromElementName('role', $optGroup['id']);
+
+								if (is_numeric($fid_title_dev)) {
+									$value_dev = $entry->getData($fid_title_dev);
+									$value_dev = strip_tags(html_entity_decode($value_dev['value_formatted']));
+									$value .= "[$entry_id] $value_dev || ";
+								}
+							}
+
+							// value for Author
+							$value .= substr(strip_tags(html_entity_decode($option[2])), 0, 300);
 						}
-
-						// value for Author
-						$fid_title    = FieldManager::fetchFieldIDFromElementName('title', $optGroup['id']);
-						$value_author = $entry->getData($fid_title);
-						$value_author = strip_tags(html_entity_decode($value_author["value_formatted-$lc"]));
-						$value .= "$value_author";
 
 						// item
 						$label      = Widget::Label();
@@ -156,11 +185,15 @@
 						else {
 							$input = Widget::Input('sblp-checked-' . $field->get('id'), (string) $entry_id, 'radio', $attributes);
 						}
-						$label->setValue(__('%s <span class="text">%s</span>', array($input->generate(), $value)));
+						$label->setValue(__('%s <span class="text">%s</span>', array(
+							$input->generate(),
+							"<b>" . $optGroup['label'] . ":</b> " . $value
+						)));
 						$label->setAttributeArray(array(
-							'title'        => $value,
-							'rel'          => $entry_id,
-							'data-section' => $section->get('handle')
+							'title'           => $value,
+							'rel'             => $entry_id,
+							'data-section'    => $section->get('handle'),
+							'data-section-id' => $section->get('id'),
 						));
 
 						// edit & delete
@@ -173,14 +206,15 @@
 						}
 
 						if ($actions !== '') {
-							$label->appendChild(new XMLElement('span', $actions, array('class' => 'sblp-widgets-actions')));
+							$label->appendChild(new XMLElement('span', $actions, array('class' => 'sblp-content_entries-actions')));
 						}
 
 						$container->appendChild($label);
 					}
 				}
-				$checkboxes->appendChild($container);
 			}
+
+			$checkboxes->appendChild($container);
 
 			$wrapper->appendChild($checkboxes);
 
@@ -205,10 +239,10 @@
 
 				$page = Administration::instance()->Page;
 
-				$page->addStylesheetToHead(URL . "/extensions/selectbox_link_field_plus/assets/styles/view.widgets.css");
+				$page->addStylesheetToHead(URL . "/extensions/selectbox_link_field_plus/assets/styles/view.content_entries.css");
 				$page->addScriptToHead(URL . "/extensions/selectbox_link_field_plus/assets/libraries/jquery.autocomplete.js");
-				$page->addScriptToHead(URL . "/extensions/selectbox_link_field_plus/assets/libraries/sblpview_widgets.js");
-				$page->addScriptToHead(URL . "/extensions/selectbox_link_field_plus/assets/libraries/view.widgets.js");
+				$page->addScriptToHead(URL . "/extensions/selectbox_link_field_plus/assets/libraries/sblpview_content_entries.js");
+				$page->addScriptToHead(URL . "/extensions/selectbox_link_field_plus/assets/libraries/view.content_entries.js");
 			}
 		}
 	}

@@ -7,8 +7,7 @@
 	 */
 
 	// The class name must be 'SBLPView_[filename - view. and .php (ucfirst)]':
-	abstract class SBLPView
-	{
+	abstract class SBLPView {
 
 		/**
 		 * Return the name of this view
@@ -34,35 +33,35 @@
 		 * @param int                      $entry_id
 		 *     Current entry ID
 		 */
-		public function generateCreate(XMLElement &$wrapper, fieldSelectBox_Link_plus $field, $entry_id = null){
-			if( $field->get( 'enable_create' ) == 1 ){
+		public function generateCreate(XMLElement &$wrapper, fieldSelectBox_Link_plus $field, $entry_id = null) {
+			if ($field->get('enable_create') == 1) {
 
 				// new entry
 				$related_sections = $field->findRelatedSections();
 
-				usort( $related_sections, function ($a, $b){
-					return strcasecmp( $a->get( 'name' ), $b->get( 'name' ) );
-				} );
+				usort($related_sections, function ($a, $b) {
+					return strcasecmp($a->get('name'), $b->get('name'));
+				});
 
 				$create_options = array();
 
-				$buttons = new XMLElement('span', __( 'New entry in' ), array('class' => 'sblp-buttons'));
-				foreach($related_sections as $idx => $section){
+				$buttons = new XMLElement('span', __('New entry in'), array('class' => 'sblp-buttons'));
+				foreach ($related_sections as $idx => $section) {
 					/** @var $section Section */
 					$create_options[] = array(
-						URL.'/xandercms/publish/'.$section->get( 'handle' ).'/new/',
+						URL . '/symphony/publish/' . $section->get('handle') . '/new/',
 						$idx == 0,
-						$section->get( "name" ),
+						$section->get("name"),
 						null,
 						null,
-						array('data-id' => $section->get( 'id' ))
+						array('data-id' => $section->get('id'))
 					);
 				}
 
-				$buttons->appendChild( Widget::Select( 'sblp_section_selector_'.$field->get( 'id' ), $create_options, array('class' => 'sblp-section-selector') ) );
-				$buttons->appendChild( Widget::Anchor( __( "Create" ), URL.'/xandercms/publish/'.$related_sections[0]->get( 'handle' ).'/new/', null, 'create button sblp-add' ) );
+				$buttons->appendChild(Widget::Select('sblp_section_selector_' . $field->get('id'), $create_options, array('class' => 'sblp-section-selector')));
+				$buttons->appendChild(Widget::Anchor(__("Create"), URL . '/symphony/publish/' . $related_sections[0]->get('handle') . '/new/', null, 'create button sblp-add'));
 
-				$wrapper->appendChild( $buttons );
+				$wrapper->appendChild($buttons);
 			}
 		}
 
@@ -71,11 +70,11 @@
 		 *
 		 * @param XMLElement $wrapper
 		 */
-		public function generateShowCreated(XMLElement &$wrapper){
+		public function generateShowCreated(XMLElement &$wrapper) {
 			$div   = new XMLElement('span', null, array('class' => 'hide-others'));
-			$input = Widget::Input( 'show_created', null, 'checkbox' );
-			$div->setValue( __( '%s show all', array($input->generate()) ) );
-			$wrapper->appendChild( $div );
+			$input = Widget::Input('show_created', null, 'checkbox');
+			$div->setValue(__('%s show all', array($input->generate())));
+			$wrapper->appendChild($div);
 		}
 
 		/**
@@ -92,14 +91,14 @@
 		 *
 		 * @return void
 		 */
-		public function generateView(XMLElement &$wrapper, $fieldname, $options, fieldSelectBox_Link_plus $field){
+		public function generateView(XMLElement &$wrapper, $fieldname, $options, fieldSelectBox_Link_plus $field) {
 			$attributes['class'] = 'target';
-			if( $field->get( 'allow_multiple_selection' ) ){
+			if ($field->get('allow_multiple_selection')) {
 				$attributes['multiple'] = 'multiple';
 			}
 
 			$wrapper->appendChild(
-				Widget::Select( $fieldname, $options, $attributes )
+				Widget::Select($fieldname, $options, $attributes)
 			);
 		}
 	}

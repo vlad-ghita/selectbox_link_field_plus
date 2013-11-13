@@ -1,18 +1,18 @@
-(function($, undefined){
+(function ($, undefined) {
 
 	var sblp = {
-		views: {},
-		current: '',
-		edit: false,
+		views:      {},
+		current:    '',
+		edit:       false,
 		sort_order: false,
 
-		init: function(){
+		init: function () {
 			$.ajax({
-				type: "GET",
-				url: Symphony.Context.get('root')+'/xandercms/extension/selectbox_link_field_plus/',
-				data: { get: this.getEntryIDFromURL() },
+				type:     "GET",
+				url: Symphony.Context.get('root') + '/symphony/extension/selectbox_link_field_plus/',
+				data:     { get: this.getEntryIDFromURL() },
 				dataType: "JSON",
-				success: function(data){
+				success:  function (data) {
 					sblp.sort_order = data;
 
 					// this allows the views to register their instances
@@ -29,7 +29,7 @@
 			sblp.$iframe = $("#sblp-iframe");
 
 			// When the iFrame is loaded, hide some Symphony stuff:
-			sblp.$iframe.hide().load(function(){
+			sblp.$iframe.hide().load(function () {
 				var iFrame = document.getElementById('sblp-iframe');
 
 				// Hide the header and the footer of the edit window (after all, it's just a default Symphony page):
@@ -38,10 +38,10 @@
 
 				// Look at the URL to determine if the window should be closed (checks if the string '/edit/' occurs in it).
 				var url = iFrame.contentWindow.location.href;
-				if( url.indexOf('/edit/') != -1 && sblp.edit == false ){
+				if (url.indexOf('/edit/') != -1 && sblp.edit == false) {
 
 					// Entry had errors. Keep window open
-					if( $(".invalid", iFrame.contentWindow.document).length > 0 ){
+					if ($(".invalid", iFrame.contentWindow.document).length > 0) {
 						return false;
 					}
 
@@ -55,13 +55,13 @@
 
 					sblp.restoreCurrentView(id);
 				}
-				else{
+				else {
 					sblp.edit = false;
 
 					// Edit the form to send the parent ID
 					var a = window.location.href.split('/edit/');
-					if( a.length == 2 ){
-						$("form", iFrame.contentWindow.document).append('<input type="hidden" name="sblp_parent" value="'+parseInt(a[1].replace('/', ''))+'" />');
+					if (a.length == 2) {
+						$("form", iFrame.contentWindow.document).append('<input type="hidden" name="sblp_parent" value="' + parseInt(a[1].replace('/', '')) + '" />');
 					}
 
 					sblp.$iframe.show();
@@ -69,21 +69,21 @@
 			});
 
 			// Close window-button:
-			sblp.$popup.on('click', "a.sblp-close", function(){
+			sblp.$popup.on('click', "a.sblp-close", function () {
 				sblp.$popup.add(sblp.$white).hide();
 				return false;
 			});
 
 			// store sort order
-			$('#contents > form').on('submit', function(){
+			$('#contents > form').on('submit', function () {
 				var data = {};
-				for( var i in sblp.views ){
-					data['id-'+sblp.views[i].$view.data('id')] = sblp.views[i].sort_order;
+				for (var i in sblp.views) {
+					data['id-' + sblp.views[i].$view.data('id')] = sblp.views[i].sort_order;
 				}
 
 				$('<input/>', {
-					name: "sblp_sortorder",
-					type: "hidden",
+					name:  "sblp_sortorder",
+					type:  "hidden",
 					value: JSON.stringify(data)
 				}).appendTo(this);
 
@@ -96,8 +96,8 @@
 		 *
 		 * @param field_id
 		 */
-		getSorting: function(field_id){
-			return this.sort_order['id-'+field_id];
+		getSorting: function (field_id) {
+			return this.sort_order['id-' + field_id];
 		},
 
 		/**
@@ -105,7 +105,7 @@
 		 *
 		 * @param id - extra ID to add to selected options
 		 */
-		restoreCurrentView: function(id){
+		restoreCurrentView: function (id) {
 			var current_view = this.views[ this.current ];
 
 			var ajaxloader = Symphony.AjaxLoader.show({target: current_view.$view});
@@ -113,27 +113,27 @@
 			// Get the selected items:
 			var selected = current_view.$view.find(current_view.settings["select"]).val();
 			// Prevent an empty array (when no items are selected):
-			if( selected == null ){
+			if (selected == null) {
 				selected = [];
 			}
-			if( typeof selected == 'string' ){
+			if (typeof selected == 'string') {
 				selected = [selected];
 			}
 
-			if( typeof id === 'string' || typeof id === 'number' ){
+			if (typeof id === 'string' || typeof id === 'number') {
 				selected.push(id);
 			}
-			else if( $.isArray(id) ){
+			else if ($.isArray(id)) {
 				selected = $.merge(selected, id);
 			}
 
 			// retain unique values
-			selected = selected.filter(function(itm, i, a){
+			selected = selected.filter(function (itm, i, a) {
 				return i == a.indexOf(itm);
 			});
 
 			// Reload the view with native Symphony functionality:
-			$("#"+sblp.current).load(window.location.href+' #'+sblp.current, function(){
+			$("#" + sblp.current).load(window.location.href + ' #' + sblp.current, function () {
 				// Restore the selected items:
 				current_view.$view.find(current_view.settings["select"]).val(selected);
 
@@ -150,11 +150,11 @@
 		/**
 		 * Get entry ID from URL
 		 */
-		getEntryIDFromURL: function(){
+		getEntryIDFromURL: function () {
 			var entryID = String(window.location).split('/edit/');
-			if( entryID.length == 2 ){
+			if (entryID.length == 2) {
 				entryID = entryID[1].split('/')[0];
-			}else{
+			} else {
 				entryID = 0;
 			}
 			return entryID;
@@ -164,7 +164,7 @@
 	// export sblp
 	window.sblp = sblp;
 
-	$(document).ready(function(){
+	$(document).ready(function () {
 		sblp.init();
 	});
 

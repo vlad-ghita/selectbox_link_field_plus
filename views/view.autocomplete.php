@@ -6,87 +6,85 @@
 	 * Time: 14:19
 	 */
 
-
-
-	require_once(EXTENSIONS.'/selectbox_link_field_plus/views/view.php');
-
-
+	require_once(EXTENSIONS . '/selectbox_link_field_plus/views/view.php');
 
 	// The class name must be 'SBLPView_[filename - view. and .php (ucfirst)]':
-	Class SBLPView_Autocomplete extends SBLPView
-	{
+	Class SBLPView_Autocomplete extends SBLPView {
 		private static $assets_loaded = false;
 
 
 
-		public function getName(){
+		public function getName() {
 			return __("Autocomplete");
 		}
 
-		public function getHandle(){
+		public function getHandle() {
 			return 'autocomplete';
 		}
 
-		public function generateView(XMLElement &$wrapper, $fieldname, $options, fieldSelectBox_Link_plus $field){
+		public function generateView(XMLElement &$wrapper, $fieldname, $options, fieldSelectBox_Link_plus $field) {
 			parent::generateView($wrapper, $fieldname, $options, $field);
 
-			$wrapper->appendChild(new XMLElement('input', null, array('type' => 'text', 'class' => 'sblp-autocomplete')));
+			$wrapper->appendChild(new XMLElement('input', null, array('type'  => 'text',
+			                                                          'class' => 'sblp-autocomplete'
+			)));
 
 			// Show checkboxes:
 			$checkboxes = new XMLElement('div', null, array('class' => 'sblp-autocomplete'));
-			foreach( $options as $optGroup ){
+			foreach ($options as $optGroup) {
 				$container = new XMLElement('div', null, array('class' => 'container'));
 
-				if( isset($optGroup['label']) ){
-					$suffix = $field->get('allow_multiple_selection') == 'yes' ? ' <em>'.__('(drag to reorder)').'</em>' : '';
-					$container->appendChild(new XMLElement('h3', $optGroup['label'].$suffix));
+				if (isset($optGroup['label'])) {
+					$suffix = $field->get('allow_multiple_selection') == 'yes' ? ' <em>' . __('(drag to reorder)') . '</em>' : '';
+					$container->appendChild(new XMLElement('h3', $optGroup['label'] . $suffix));
 					$this->generateShowCreated($container);
 
 					// Set the sectionname: this is required by the javascript-functions to edit or delete entries.
 					$sectionName = General::createHandle($optGroup['label']);
 					// In case of no multiple and not required:
-					if( $field->get('allow_multiple_selection') == 'no' && $field->get('required') == 'no' ){
-						$label = Widget::Label('<em>'.__('Select none').'</em>', Widget::Input('sblp-checked-'.$field->get('id'), '0', 'radio'));
+					if ($field->get('allow_multiple_selection') == 'no' && $field->get('required') == 'no') {
+						$label = Widget::Label('<em>' . __('Select none') . '</em>', Widget::Input('sblp-checked-' . $field->get('id'), '0', 'radio'));
 						$container->appendChild($label);
 					}
 
-					foreach( $optGroup['options'] as $option ){
+					foreach ($optGroup['options'] as $option) {
 						$section = SectionManager::fetch($optGroup['id']);
 
-						$id = $option[0];
+						$id    = $option[0];
 						$value = strip_tags(html_entity_decode($option[2]));
 
 						// item
 						$label = Widget::Label();
-						if( $field->get('allow_multiple_selection') == 'yes' ){
-							$input = Widget::Input('sblp-checked-'.$field->get('id').'[]', (string) $id, 'checkbox');
+						if ($field->get('allow_multiple_selection') == 'yes') {
+							$input = Widget::Input('sblp-checked-' . $field->get('id') . '[]', (string) $id, 'checkbox');
 						}
-						else{
-							$input = Widget::Input('sblp-checked-'.$field->get('id'), (string) $id, 'radio');
+						else {
+							$input = Widget::Input('sblp-checked-' . $field->get('id'), (string) $id, 'radio');
 						}
 						$label->setValue(__('%s <span class="text">%s</span>', array($input->generate(), $value)));
 						$label->setAttributeArray(array(
-							'title' => $value,
-							'rel' => $id,
+							'title'        => $value,
+							'rel'          => $id,
 							'data-section' => $section->get('handle')
 						));
 
 						// edit & delete
 						$actions = '';
-						if( $field->get('enable_edit') == 1 ){
+						if ($field->get('enable_edit') == 1) {
 							$actions .= '<a href="javascript:void(0)" class="edit">Edit</a>';
 						}
-						if( $field->get('enable_delete') == 1 ){
-							if( $actions !== '' ) $actions .= '|';
+						if ($field->get('enable_delete') == 1) {
+							if ($actions !== '') {
+								$actions .= '|';
+							}
 							$actions .= '<a href="javascript:void(0)" class="delete">Delete</a>';
 						}
 
-						if( $actions !== '' ){
+						if ($actions !== '') {
 							$label->appendChild(new XMLElement('span', $actions, array('class' => 'sblp-autocomplete-actions')));
 						}
 
 						$container->appendChild($label);
-
 					}
 				}
 				$checkboxes->appendChild($container);
@@ -103,21 +101,21 @@
 
 
 
-		public static function appendAssets(){
-			if( self::$assets_loaded === false
+		public static function appendAssets() {
+			if (self::$assets_loaded === false
 				&& class_exists('Administration')
 				&& Administration::instance() instanceof Administration
 				&& Administration::instance()->Page instanceof HTMLPage
-			){
+			) {
 
 				self::$assets_loaded = true;
 
 				$page = Administration::instance()->Page;
 
-				$page->addStylesheetToHead(URL."/extensions/selectbox_link_field_plus/assets/styles/view.autocomplete.css");
-				$page->addScriptToHead(URL."/extensions/selectbox_link_field_plus/assets/libraries/jquery.autocomplete.js");
-				$page->addScriptToHead(URL."/extensions/selectbox_link_field_plus/assets/libraries/sblpview_autocomplete.js");
-				$page->addScriptToHead(URL."/extensions/selectbox_link_field_plus/assets/libraries/view.autocomplete.js");
+				$page->addStylesheetToHead(URL . "/extensions/selectbox_link_field_plus/assets/styles/view.autocomplete.css");
+				$page->addScriptToHead(URL . "/extensions/selectbox_link_field_plus/assets/libraries/jquery.autocomplete.js");
+				$page->addScriptToHead(URL . "/extensions/selectbox_link_field_plus/assets/libraries/sblpview_autocomplete.js");
+				$page->addScriptToHead(URL . "/extensions/selectbox_link_field_plus/assets/libraries/view.autocomplete.js");
 			}
 		}
 	}

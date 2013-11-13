@@ -1,9 +1,9 @@
-(function($, undefined){
+(function ($, undefined) {
 
-	$(sblp).on('sblp.initialization', function(){
+	$(sblp).on('sblp.initialization', function () {
 
 		// register views
-		$('div.sblp-view-icons').each(function(){
+		$('div.sblp-view-icons').each(function () {
 			var $view = $(this);
 			sblp.views[$view.attr('id')] = new sblp.SBLPView_Icons($view);
 
